@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { profileImg } from "../assets/projectData.js";
 import axios from "axios";
+import Loading from "./Loading.jsx";
 
 const Account = () => {
 
@@ -12,7 +12,9 @@ const Account = () => {
   const [customImg, setCustomImg] = useState(""); // url input
   const [profileURL, setProfileURL] = useState(() => {
     // localStorage me pehle se image hai to wo load karlo, warna default
-    return localStorage.getItem("profileImage") || profileImg[0].img;
+    return (
+  localStorage.getItem("profileImage") || "https://cdn-icons-png.flaticon.com/256/3001/3001758.png"
+);
   });
   const [file, setFile] = useState(null); // local file input
 
@@ -61,7 +63,7 @@ const Account = () => {
     }
   };
 
-  if (!user) return <p className="text-center mt-5">Loading...</p>;
+  if (!user) return <p className="text-center mt-5"><Loading /></p>;
 
   return (
     <div className="container py-5">

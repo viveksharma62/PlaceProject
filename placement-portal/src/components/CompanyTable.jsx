@@ -2,26 +2,24 @@ import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import axios from "axios";
+import Loading from './Loading'
 
 const CompanyTable = () => {
   const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true); // 🔁 loading state
 
- const backend = process.env.REACT_APP_BACKEND_URL;
-
-fetch(`${backend}/api/companies`)
-  .then(res => res.json())
-  .then(data => console.log(data))
-  .catch(err => console.error(err));
-
-
+  const backend = process.env.REACT_APP_BACKEND_URL;
 
   // ✅ Fetch data from backend
   const fetchCompanies = async () => {
     try {
+      setLoading(true); // Start loading
       const res = await axios.get(`${backend}/api/companies`);
       setCompanies(res.data);
     } catch (error) {
       console.error("Error fetching companies:", error);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -37,7 +35,7 @@ fetch(`${backend}/api/companies`)
       try {
         await axios.delete(`${backend}/api/companies/${id}`);
         alert("Deleted successfully ✅");
-        fetchCompanies(); // Refresh the list
+        fetchCompanies(); // Refresh list
       } catch (error) {
         alert("Error deleting ❌");
         console.error(error);
@@ -59,7 +57,6 @@ fetch(`${backend}/api/companies`)
   // ✅ PDF Download
   const downloadPDF = () => {
     const doc = new jsPDF();
-
     doc.setFontSize(18);
     doc.text("Company Details", 14, 15);
 
@@ -90,11 +87,17 @@ fetch(`${backend}/api/companies`)
   return (
     <div className="container mt-4">
       <h2>Company List</h2>
+
       <button className="btn btn-success mb-3" onClick={downloadPDF}>
         Download PDF
       </button>
 
-      {companies.length === 0 ? (
+      {/* ✅ Show loading text or spinner */}
+      {loading ? (
+        <p>
+          <i className="fa fa-spinner fa-spin me-2" /> <Loading/>
+        </p>
+      ) : companies.length === 0 ? (
         <p>No companies added yet.</p>
       ) : (
         <table className="table table-bordered">
