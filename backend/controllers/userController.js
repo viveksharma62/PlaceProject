@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // ✔ make sure path sahi ho
+const User = require("../models/User");
+const Company = require("../models/companyModel");
 
-// 👉 Register user
+// Register user
 exports.registerUser = async (req, res) => {
   const { name, email, password, gender, branch, course, address, interest } = req.body;
 
@@ -45,7 +46,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// 👉 Login user
+// Login user
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -64,7 +65,7 @@ exports.loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
-        gender: user.gender, // ✔ frontend ko dikhane ke liye
+        gender: user.gender,
         branch: user.branch,
         course: user.course,
         address: user.address,
@@ -73,5 +74,61 @@ exports.loginUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Add company
+exports.addCompany = async (req, res) => {
+  try {
+    const lastCompany = await Company.findOne().sort({ sno: -1 });
+    const newSno = lastCompany ? lastCompany.sno + 1 : 1;
+
+    const company = new Company({
+      sno: newSno,
+      company: req.body.company,
+      role: req.body.role,
+      package: req.body.package,
+      location: req.body.location,
+      companyUrl: req.body.companyUrl,
+    });
+
+    await company.save();
+
+    res.status(201).json({ message: "Company added", company });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get all companies
+exports.getAllCompanies = async (req, res) => {
+  try {
+    const companies = await Company.find().sort({ sno: 1 });
+    res.json(companies);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Delete company by id
+exports.deleteCompany = async (req, res) => {
+  try {
+    await Company.findByIdAndDelete(req.params.id);
+    res.json({ message: "Company deleted" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+//user Profile
+
+
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password"); // hide password
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
   }
 };

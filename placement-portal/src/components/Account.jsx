@@ -1,17 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {profileImg} from "../assets/projectData.js";
-
-
+import { profileImg } from "../assets/projectData.js";
+import axios from "axios";
 
 const Account = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [customImg, setCustomImg] = useState(""); // url input
+  const [profileURL, setProfileURL] = useState(() => {
+    // localStorage me pehle se image hai to wo load karlo, warna default
+    return localStorage.getItem("profileImage") || profileImg[0].img;
+  });
+  const [file, setFile] = useState(null); // local file input
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/");
+      return;
+    }
+
+    axios
+      .get("http://localhost:5000/api/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setUser(res.data))
+      .catch((err) => {
+        console.error(err);
+        navigate("/");
+      });
+  }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    navigate("/"); // logout ke baad home page
-    window.location.reload(); // page reload karenge taaki nav bar update ho jaye
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
   };
+
+  // URL se image update
+  const handleImageChange = () => {
+    if (customImg.trim() !== "") {
+      setProfileURL(customImg);
+      localStorage.setItem("profileImage", customImg); // yahan store karo
+      setCustomImg("");
+    }
+  };
+
+  // Local file upload handler
+  const handleFileUpload = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const localUrl = URL.createObjectURL(selectedFile);
+      setProfileURL(localUrl);
+      setFile(selectedFile);
+      localStorage.setItem("profileImage", localUrl); // local url bhi save karo
+    }
+  };
+
+  if (!user) return <p className="text-center mt-5">Loading...</p>;
 
   return (
     <div className="container py-5">
@@ -20,20 +67,42 @@ const Account = () => {
           <div className="card shadow-sm border-0 rounded-4 text-center">
             <div className="card-body p-4">
               <img
-                src={profileImg[0].img}
+                src={profileURL}
                 alt="Profile"
                 className="rounded-circle border border-2 mb-3"
-                style={{ width: "120px", height: "120px" }}
+                style={{ width: "120px", height: "120px", objectFit: "cover" }}
               />
-              <h4 className="mb-1">Vivek Sharma</h4>
-              <small className="text-muted">vivek@example.com</small>
+
+              {/* URL input */}
+              <input
+                type="text"
+                value={customImg}
+                onChange={(e) => setCustomImg(e.target.value)}
+                placeholder="Enter image URL"
+                className="form-control mb-2"
+              />
+              <button
+                className="btn btn-sm btn-secondary mb-3"
+                onClick={handleImageChange}
+              >
+                Update from URL
+              </button>
+
+              {/* File input */}
+              <input
+                type="file"
+                accept="image/*"
+                className="form-control mb-2"
+                onChange={handleFileUpload}
+              />
+              <small className="text-muted">Or upload from your computer</small>
+
+              <h4 className="mt-3 mb-1">{user.name}</h4>
+              <small className="text-muted">{user.email}</small>
 
               <ul className="list-group mt-4">
                 <li className="list-group-item list-group-item-action active">
                   🧾 Account Details
-                </li>
-                <li className="list-group-item list-group-item-action">
-                  ✏️ Edit Bio
                 </li>
                 <li
                   className="list-group-item list-group-item-action text-danger"
@@ -46,10 +115,24 @@ const Account = () => {
 
               <div className="mt-4 text-start">
                 <h5>Account Information</h5>
-                <p><strong>Full Name:</strong> Vivek Sharma</p>
-                <p><strong>Email:</strong> vivek@example.com</p>
-                <p><strong>Role:</strong> Student</p>
-                <p><strong>Location:</strong> India</p>
+                <p>
+                  <strong>Full Name:</strong> {user.name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {user.email}
+                </p>
+                <p>
+                  <strong>Gender:</strong> {user.gender || "N/A"}
+                </p>
+                <p>
+                  <strong>Branch:</strong> {user.branch || "N/A"}
+                </p>
+                <p>
+                  <strong>Course:</strong> {user.course || "N/A"}
+                </p>
+                <p>
+                  <strong>Address:</strong> {user.address || "N/A"}
+                </p>
               </div>
             </div>
           </div>

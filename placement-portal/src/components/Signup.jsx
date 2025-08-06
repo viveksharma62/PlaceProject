@@ -10,15 +10,33 @@ const Signup = () => {
     course: "",
     address: "",
     interest: "",
-    gender: "", // new gender field
+    gender: "",
   });
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    localStorage.setItem("user", JSON.stringify(input));
-    alert("Signup successful!");
-    navigate("/login");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Signup successful!");
+        navigate("/login");
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
+    }
   };
 
   return (

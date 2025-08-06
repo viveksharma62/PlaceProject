@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import axios from "axios";
 
 const CompanyTable = () => {
   const [companies, setCompanies] = useState([]);
 
+  // ✅ Fetch data from backend
+  const fetchCompanies = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/companies");
+      setCompanies(res.data);
+    } catch (error) {
+      console.error("Error fetching companies:", error);
+    }
+  };
+
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("companies")) || [];
-    setCompanies(stored);
+    fetchCompanies();
   }, []);
 
-  const handleDelete = (index) => {
+  // ✅ Delete company by ID
+  const handleDelete = async (id) => {
     const password = prompt("Enter password to delete:");
 
     if (password === "vivek@1234") {
-      const updated = [...companies];
-      updated.splice(index, 1);
-      setCompanies(updated);
-      localStorage.setItem("companies", JSON.stringify(updated));
-      alert("Deleted successfully ✅");
+      try {
+        await axios.delete(`http://localhost:5000/api/companies/${id}`);
+        alert("Deleted successfully ✅");
+        fetchCompanies(); // Refresh the list
+      } catch (error) {
+        alert("Error deleting ❌");
+        console.error(error);
+      }
     } else {
       alert("Wrong password ❌");
     }
   };
 
+  // ✅ Open company link
   const handleShow = (url) => {
     if (url) {
       window.open(url, "_blank");
@@ -32,6 +47,7 @@ const CompanyTable = () => {
     }
   };
 
+  // ✅ PDF Download
   const downloadPDF = () => {
     const doc = new jsPDF();
 
@@ -85,7 +101,7 @@ const CompanyTable = () => {
           </thead>
           <tbody>
             {companies.map((c, i) => (
-              <tr key={i}>
+              <tr key={c._id}>
                 <td>{i + 1}</td>
                 <td>{c.company}</td>
                 <td>{c.role}</td>
@@ -100,7 +116,7 @@ const CompanyTable = () => {
                   </button>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(i)}
+                    onClick={() => handleDelete(c._id)}
                   >
                     Delete
                   </button>

@@ -1,5 +1,10 @@
 // Local image import
-const localProfile = require('../assets/profile.jpg');
+const localProfile1 = require('../assets/profile.jpg');
+const localProfile = {
+  img: 'https://drive.google.com/file/d/19YwVudYYqSdHRB063y1DB-vwszr4f-7V/view?usp=drive_link'
+};
+
+
 
 // Team Members Data
 export const teamData = [
@@ -7,7 +12,7 @@ export const teamData = [
     name: "Vivek",
     role: "Web Developer",
     department: "CE",
-    img: localProfile,
+    img: localProfile1,
   },
   {
     name: "Rohit",

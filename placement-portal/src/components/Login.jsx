@@ -2,29 +2,40 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = ({ setIsLoggedIn }) => {
-  // Default values for email and password
-  const [input, setInput] = useState({ email: "admin", password: "admin" });
+  const [input, setInput] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    try {
+      const res = await fetch("http://localhost:5000/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: input.email,
+          password: input.password,
+        }),
+      });
 
-    // Check for admin login
-    const isAdmin = input.email === "admin" && input.password === "admin";
+      const data = await res.json();
 
-    if (
-      (storedUser &&
-        input.email === storedUser.email &&
-        input.password === storedUser.password) ||
-      isAdmin
-    ) {
-      localStorage.setItem("isLoggedIn", "true");
-      setIsLoggedIn(true); // Update login state immediately
-      navigate("/"); // Redirect to home or dashboard
-    } else {
-      alert("Invalid email or password!");
+      if (res.ok) {
+        // Save token or user info in localStorage if needed
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("isLoggedIn", "true");
+
+        setIsLoggedIn(true);
+        alert("Successfully logged in!");
+        navigate("/"); // redirect to homepage or dashboard
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
     }
   };
 
@@ -37,13 +48,13 @@ const Login = ({ setIsLoggedIn }) => {
             <form onSubmit={handleLogin}>
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
-                  Username or Email
+                  Email
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
                   className="form-control"
-                  placeholder="Enter username or email"
+                  placeholder="Enter email"
                   value={input.email}
                   onChange={(e) => setInput({ ...input, email: e.target.value })}
                   required
