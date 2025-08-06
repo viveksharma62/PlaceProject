@@ -28,14 +28,14 @@ const Carousel = () => {
         </div>
         <div className="carousel-item">
           <img
-            src="https://img2.exportersindia.com/product_images/bc-full/dir_163/4881746/job-placement-service-1516077013-3582132.jpeg"
+            src="https://media.geeksforgeeks.org/wp-content/uploads/20221021152916/BestStrategyforthisUpcomingPlacementSeason.jpg"
             className="d-block w-100"
             alt="Slide 2"
           />
         </div>
         <div className="carousel-item">
           <img
-            src="https://dynamic.placementindia.com/blog_images/20210330112333_image1.jpg"
+            src="https://media.licdn.com/dms/image/v2/C4D1BAQHhtublbOzQYA/company-background_10000/company-background_10000/0/1588690914921/placementseason_com_cover?e=2147483647&v=beta&t=AkE-tVt6_puMRZsgR1_wMpcWhmVtD-dGKaCx4OnrqFE"
             className="d-block w-100"
             alt="Slide 3"
           />

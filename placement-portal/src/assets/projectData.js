@@ -1,4 +1,7 @@
-// Local image import
+const PrashantImg = require('../assets/prashantImg.jpg')
+const AnshuImg = require('../assets/AnshuImg.jpg')
+const SurajImg = require('../assets/SurajImg.jpg')
+const nawnitImg = require('../assets/nawnitImg.jpg')
 const localProfile1 = require('../assets/profile.jpg');
 const localProfile = {
   img: 'https://drive.google.com/file/d/19YwVudYYqSdHRB063y1DB-vwszr4f-7V/view?usp=drive_link'
@@ -9,53 +12,48 @@ const localProfile = {
 // Team Members Data
 export const teamData = [
   {
-    name: "Vivek",
+    name: "Vivek Kumar",
     role: "Web Developer",
     department: "CE",
     img: localProfile1,
   },
   {
-    name: "Rohit",
+    name: "Prashant Kumar",
     role: "Backend Dev",
-    department: "IT",
-    img: "https://media.istockphoto.com/id/1347005975/photo/portrait-of-a-serious-muslim-young-man-looking-at-camera.jpg?s=612x612&w=0&k=20&c=mxRUDCuwDD3ML6-vMaUlTY7Ghqlj2R_LOhWWCB5CTXE=",
-  },
-  {
-    name: "Sneha",
-    role: "HR",
-    department: "EC",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaXQoo21z972uS-JHDFnD7PDQC7gJocS8U32FugISogE6JnvceTKmlYE9FMdalmbbwkbo&usqp=CAU",
-  },
-  {
-    name: "Priya",
-    role: "UI/UX Designer",
     department: "CE",
-    img: "https://billey-4437.kxcdn.com/wp-content/uploads/2019/08/team-member-01.jpg",
+    img:PrashantImg,
   },
   {
-    name: "Suraj",
-    role: "Machine Learning",
+    name: "Suraj kr Thakur",
+    role: "Web Developer",
     department: "CE",
-    img: "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D",
+    img: SurajImg,
   },
   {
-    name: "Ashish",
+    name: "Anshu Kumar",
+    role: "Web Developer",
+    department: "CE",
+    img:AnshuImg,
+  },
+  {
+    name: "Navnit Kumar",
+    role: "Web Developer",
+    department: "CE",
+    img: nawnitImg,
+  },
+  {
+    name: "Prince Kumar",
     role: "Data Analysis",
     department: "CE",
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPhtdO_3HLpDMCdrlnK9AjcBcHFMKy7lt0rA&s",
   },
   {
-    name: "Nikhil",
+    name: "Rishab kumar",
     role: "MERN",
     department: "CE",
     img: "https://imgcdn.stablediffusionweb.com/2024/2/28/64f23186-ec94-4291-885b-3c0f433877df.jpg",
   },
-  {
-    name: "Anshu",
-    role: "PHP Developer",
-    department: "CE",
-    img: "https://img.freepik.com/free-photo/front-view-man-posing_23-2148364843.jpg?semt=ais_hybrid&w=740&q=80",
-  },
+ 
 ];
 
 // Only profile image array

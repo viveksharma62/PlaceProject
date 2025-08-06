@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import icons from '../assets/icons.png';
 
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
+       <img src={icons} alt="icon" style={{ width: "30px", height: "30px" }} />
         <Link className="navbar-brand" to="/">Placement Site</Link>
         <button
           className="navbar-toggler"
