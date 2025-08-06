@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Signup = () => {
+
+  const backend = process.env.REACT_APP_BACKEND_URL;
+
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -18,7 +21,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/register", {
+      const res = await fetch(`${backend}/api/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

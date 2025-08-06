@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = ({ setIsLoggedIn }) => {
+
+  const backend = process.env.REACT_APP_BACKEND_URL;
+
   const [input, setInput] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
@@ -9,7 +12,7 @@ const Login = ({ setIsLoggedIn }) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const res = await fetch(`${backend}/api/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

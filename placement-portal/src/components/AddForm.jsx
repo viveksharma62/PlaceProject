@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";  // axios import karna hoga
 
 const AddForm = () => {
+
+  const backend = process.env.REACT_APP_BACKEND_URL;
+
   const [formData, setFormData] = useState({
     company: "",
     role: "",
@@ -19,7 +22,7 @@ const AddForm = () => {
 
     try {
       // Backend API call - POST request
-      const res = await axios.post("http://localhost:5000/api/companies/add", formData);
+      const res = await axios.post(`${backend}/api/companies/add`, formData);
 
       if (res.status === 201 || res.status === 200) {
         alert("Company Added ✅");

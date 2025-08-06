@@ -6,10 +6,19 @@ import axios from "axios";
 const CompanyTable = () => {
   const [companies, setCompanies] = useState([]);
 
+ const backend = process.env.REACT_APP_BACKEND_URL;
+
+fetch(`${backend}/api/companies`)
+  .then(res => res.json())
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+
+
+
   // ✅ Fetch data from backend
   const fetchCompanies = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/companies");
+      const res = await axios.get(`${backend}/api/companies`);
       setCompanies(res.data);
     } catch (error) {
       console.error("Error fetching companies:", error);
@@ -26,7 +35,7 @@ const CompanyTable = () => {
 
     if (password === "vivek@1234") {
       try {
-        await axios.delete(`http://localhost:5000/api/companies/${id}`);
+        await axios.delete(`${backend}/api/companies/${id}`);
         alert("Deleted successfully ✅");
         fetchCompanies(); // Refresh the list
       } catch (error) {

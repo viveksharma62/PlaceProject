@@ -4,6 +4,9 @@ import { profileImg } from "../assets/projectData.js";
 import axios from "axios";
 
 const Account = () => {
+
+   const backend = process.env.REACT_APP_BACKEND_URL;
+
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [customImg, setCustomImg] = useState(""); // url input
@@ -22,7 +25,7 @@ const Account = () => {
     }
 
     axios
-      .get("http://localhost:5000/api/user", {
+      .get(`${backend}/api/user`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setUser(res.data))

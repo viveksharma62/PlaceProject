@@ -51,7 +51,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
 
             {!isLoggedIn && (
               <li className="nav-item">
-                <Link className="nav-link" to="/login">Login</Link>
+                <Link className="nav-link" to="/login"  onClick={handleLogout}>Login</Link>
               </li>
             )}
 
