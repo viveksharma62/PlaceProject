@@ -2,6 +2,7 @@ const PrashantImg = require('../assets/prashantImg.jpg')
 const AnshuImg = require('../assets/AnshuImg.jpg')
 const SurajImg = require('../assets/SurajImg.jpg')
 const nawnitImg = require('../assets/nawnitImg.jpg')
+const princetImg = require('../assets/princeImg.jpg')
 const localProfile1 = require('../assets/profile.jpg');
 const localProfile = {
   img: 'https://drive.google.com/file/d/19YwVudYYqSdHRB063y1DB-vwszr4f-7V/view?usp=drive_link'
@@ -45,7 +46,7 @@ export const teamData = [
     name: "Prince Kumar",
     role: "Data Analysis",
     department: "CE",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPhtdO_3HLpDMCdrlnK9AjcBcHFMKy7lt0rA&s",
+    img: princetImg,
   },
   {
     name: "Rishab kumar",
