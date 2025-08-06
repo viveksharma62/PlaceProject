@@ -1,0 +1,45 @@
+.account-container {
+  display: flex;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.account-sidebar {
+  width: 200px;
+  border-right: 1px solid #ccc;
+}
+
+.account-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.account-sidebar ul li {
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+}
+
+.account-sidebar ul li:hover {
+  color: green;
+}
+
+.account-main {
+  flex: 1;
+  text-align: center;
+  padding-top: 40px;
+}
+
+.profile-photo img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%; /* Makes it circle */
+  object-fit: cover;
+}
+
+.profile-name {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
