@@ -18,6 +18,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/companies", userRoutes);
 app.use("/api", userRoutes);
+app.use("/api/admin", userRoutes);
 
 
 

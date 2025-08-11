@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Loading from "./Loading.jsx";
+import Loading from "./Loading.jsx"
+import AdminLoginModal from "./AdminLoginModal";
 
 const Account = () => {
   const backend = process.env.REACT_APP_BACKEND_URL;
@@ -20,7 +21,7 @@ const Account = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/login"); // ✅ direct login page
+      navigate("/login");
       return;
     }
 
@@ -29,17 +30,13 @@ const Account = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setUser(res.data))
-      .catch((err) => {
-        console.error(err);
-        navigate("/login"); // ✅ direct login page
-      });
+      .catch(() => navigate("/login"));
   }, [navigate, backend]);
 
   const handleLogout = () => {
     localStorage.clear();
-    // ✅ App.js ka state bhi update ho isliye event fire karein
     window.dispatchEvent(new Event("storage"));
-    navigate("/login"); // ✅ login page par bhej do
+    navigate("/login");
   };
 
   const handleImageChange = () => {
@@ -59,6 +56,11 @@ const Account = () => {
       localStorage.setItem("profileImage", localUrl);
     }
   };
+
+// Admin button click handler
+const handleAdminClick = () => {
+    navigate("/AdminLoginModal"); 
+};
 
   if (!user) return <p className="text-center mt-5"><Loading /></p>;
 
@@ -104,6 +106,22 @@ const Account = () => {
                 <li className="list-group-item list-group-item-action active">
                   🧾 Account Details
                 </li>
+
+                {/* Admin Section with Button */}
+                <li className="list-group-item list-group-item-action text-center  ">
+                  <strong>Admin Section</strong>
+                  <p className="mb-2">
+                    Welcome Admin! You can manage users and settings here.
+                  </p>
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={handleAdminClick}
+
+                  >
+                    Go to Admin Page
+                  </button>
+                </li>
+
                 <li
                   className="list-group-item list-group-item-action text-danger"
                   style={{ cursor: "pointer" }}

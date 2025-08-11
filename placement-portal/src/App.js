@@ -10,7 +10,10 @@ import Footer from "./components/Footer";
 import Account from "./components/Account";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Resources from "./components/Resource"; // 
+import Resources from "./components/Resource"; 
+import Admin from "./components/Admin";
+import AdminLoginModal from "./components/AdminLoginModal"
+
 
 const Home = () => (
   <>
@@ -65,6 +68,23 @@ function App() {
 
         {/* ✅ New route for Resources page */}
         <Route path="/resources" element={<Resources />} />
+
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <Admin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/adminLoginModal"
+          element={
+            <PrivateRoute isLoggedIn={isLoggedIn}>
+              <AdminLoginModal />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   );

@@ -6,20 +6,19 @@ import Loading from './Loading'
 
 const CompanyTable = () => {
   const [companies, setCompanies] = useState([]);
-  const [loading, setLoading] = useState(true); // 🔁 loading state
+  const [loading, setLoading] = useState(true);
 
   const backend = process.env.REACT_APP_BACKEND_URL;
 
-  // ✅ Fetch data from backend
   const fetchCompanies = async () => {
     try {
-      setLoading(true); // Start loading
+      setLoading(true);
       const res = await axios.get(`${backend}/api/companies`);
       setCompanies(res.data);
     } catch (error) {
       console.error("Error fetching companies:", error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -27,7 +26,6 @@ const CompanyTable = () => {
     fetchCompanies();
   }, []);
 
-  // ✅ Delete company by ID
   const handleDelete = async (id) => {
     const password = prompt("Enter password to delete:");
 
@@ -35,7 +33,7 @@ const CompanyTable = () => {
       try {
         await axios.delete(`${backend}/api/companies/${id}`);
         alert("Deleted successfully ✅");
-        fetchCompanies(); // Refresh list
+        fetchCompanies();
       } catch (error) {
         alert("Error deleting ❌");
         console.error(error);
@@ -45,7 +43,6 @@ const CompanyTable = () => {
     }
   };
 
-  // ✅ Open company link
   const handleShow = (url) => {
     if (url) {
       window.open(url, "_blank");
@@ -54,7 +51,6 @@ const CompanyTable = () => {
     }
   };
 
-  // ✅ PDF Download
   const downloadPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(18);
@@ -92,51 +88,53 @@ const CompanyTable = () => {
         Download PDF
       </button>
 
-      {/* ✅ Show loading text or spinner */}
       {loading ? (
         <p>
-          <i className="fa fa-spinner fa-spin me-2" /> <Loading/>
+          <i className="fa fa-spinner fa-spin me-2" /> <Loading />
         </p>
       ) : companies.length === 0 ? (
         <p>No companies added yet.</p>
       ) : (
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>SrNo.</th>
-              <th>Company Name</th>
-              <th>Job Role</th>
-              <th>Package</th>
-              <th>Location</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {companies.map((c, i) => (
-              <tr key={c._id}>
-                <td>{i + 1}</td>
-                <td>{c.company}</td>
-                <td>{c.role}</td>
-                <td>{c.package}</td>
-                <td>{c.location}</td>
-                <td>
-                  <button
-                    className="btn btn-primary btn-sm me-2"
-                    onClick={() => handleShow(c.companyUrl)}
-                  >
-                    Show
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(c._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        // Wrap table in .table-responsive for responsiveness
+        <div className="table-responsive">
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>SrNo.</th>
+                <th>Company Name</th>
+                <th>Job Role</th>
+                <th>Package</th>
+                <th>Location</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {companies.map((c, i) => (
+                <tr key={c._id}>
+                  <td>{i + 1}</td>
+                  <td>{c.company}</td>
+                  <td>{c.role}</td>
+                  <td>{c.package}</td>
+                  <td>{c.location}</td>
+                  <td>
+                    <button
+                      className="btn btn-primary btn-sm me-2"
+                      onClick={() => handleShow(c.companyUrl)}
+                    >
+                      Show
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(c._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

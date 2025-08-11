@@ -87,6 +87,11 @@ export const jobSites = [
     url: "https://www.monster.com/",
     icon: "https://media.trustradius.com/vendor-logos/3P/9O/U2TQ1UUPMEM3.JPEG",
   },
+  {
+    name: "ambitionbox",
+    url: "https://www.ambitionbox.com/",
+    icon: "https://play-lh.googleusercontent.com/0dG_JCgOtwVsL-vqpaPwvVjOJzy0xwWqhDCRaaB1RZNGbGPOiwA7a0LcfbP9WsfGkIle=w240-h480-rw",
+  },
 ];
 
 // Export default if needed

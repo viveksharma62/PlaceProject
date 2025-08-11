@@ -122,8 +122,6 @@ exports.deleteCompany = async (req, res) => {
 
 
 //user Profile
-
-
 exports.getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password"); // hide password
@@ -132,3 +130,49 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Get total user count (admin)
+exports.getUserCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// New: Get total company count
+exports.getCompanyCount = async (req, res) => {
+  try {
+    const count = await Company.countDocuments();
+    res.json({ count });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+// Get all users (for admin to show in table)
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("name email"); // sirf name, email le lo
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Delete user by id
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
+
