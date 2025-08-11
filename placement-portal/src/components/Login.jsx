@@ -33,7 +33,7 @@ const Login = ({ setIsLoggedIn }) => {
 
         setIsLoggedIn(true);
         alert("Successfully logged in!");
-        navigate("/"); // redirect to homepage or dashboard
+        navigate("/"); 
       } else {
         alert(data.message || "Login failed");
       }

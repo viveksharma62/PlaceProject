@@ -4,25 +4,23 @@ import axios from "axios";
 import Loading from "./Loading.jsx";
 
 const Account = () => {
-
-   const backend = process.env.REACT_APP_BACKEND_URL;
-
+  const backend = process.env.REACT_APP_BACKEND_URL;
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [customImg, setCustomImg] = useState(""); // url input
+  const [customImg, setCustomImg] = useState("");
   const [profileURL, setProfileURL] = useState(() => {
-    // localStorage me pehle se image hai to wo load karlo, warna default
     return (
-  localStorage.getItem("profileImage") || "https://cdn-icons-png.flaticon.com/256/3001/3001758.png"
-);
+      localStorage.getItem("profileImage") ||
+      "https://cdn-icons-png.flaticon.com/256/3001/3001758.png"
+    );
   });
-  const [file, setFile] = useState(null); // local file input
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      navigate("/");
+      navigate("/login"); // ✅ direct login page
       return;
     }
 
@@ -33,33 +31,32 @@ const Account = () => {
       .then((res) => setUser(res.data))
       .catch((err) => {
         console.error(err);
-        navigate("/");
+        navigate("/login"); // ✅ direct login page
       });
-  }, [navigate]);
+  }, [navigate, backend]);
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/");
-    window.location.reload();
+    // ✅ App.js ka state bhi update ho isliye event fire karein
+    window.dispatchEvent(new Event("storage"));
+    navigate("/login"); // ✅ login page par bhej do
   };
 
-  // URL se image update
   const handleImageChange = () => {
     if (customImg.trim() !== "") {
       setProfileURL(customImg);
-      localStorage.setItem("profileImage", customImg); // yahan store karo
+      localStorage.setItem("profileImage", customImg);
       setCustomImg("");
     }
   };
 
-  // Local file upload handler
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
       const localUrl = URL.createObjectURL(selectedFile);
       setProfileURL(localUrl);
       setFile(selectedFile);
-      localStorage.setItem("profileImage", localUrl); // local url bhi save karo
+      localStorage.setItem("profileImage", localUrl);
     }
   };
 
@@ -78,7 +75,6 @@ const Account = () => {
                 style={{ width: "120px", height: "120px", objectFit: "cover" }}
               />
 
-              {/* URL input */}
               <input
                 type="text"
                 value={customImg}
@@ -93,7 +89,6 @@ const Account = () => {
                 Update from URL
               </button>
 
-              {/* File input */}
               <input
                 type="file"
                 accept="image/*"
@@ -120,24 +115,12 @@ const Account = () => {
 
               <div className="mt-4 text-start">
                 <h5>Account Information</h5>
-                <p>
-                  <strong>Full Name:</strong> {user.name}
-                </p>
-                <p>
-                  <strong>Email:</strong> {user.email}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {user.gender || "N/A"}
-                </p>
-                <p>
-                  <strong>Branch:</strong> {user.branch || "N/A"}
-                </p>
-                <p>
-                  <strong>Course:</strong> {user.course || "N/A"}
-                </p>
-                <p>
-                  <strong>Address:</strong> {user.address || "N/A"}
-                </p>
+                <p><strong>Full Name:</strong> {user.name}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Gender:</strong> {user.gender || "N/A"}</p>
+                <p><strong>Branch:</strong> {user.branch || "N/A"}</p>
+                <p><strong>Course:</strong> {user.course || "N/A"}</p>
+                <p><strong>Address:</strong> {user.address || "N/A"}</p>
               </div>
             </div>
           </div>
