@@ -90,7 +90,7 @@ export const jobSites = [
   {
     name: "ambitionbox",
     url: "https://www.ambitionbox.com/",
-    icon: "https://play-lh.googleusercontent.com/0dG_JCgOtwVsL-vqpaPwvVjOJzy0xwWqhDCRaaB1RZNGbGPOiwA7a0LcfbP9WsfGkIle=w240-h480-rw",
+    icon: "https://www.ambitionbox.com/jobs?campaign=desktop_nav",
   },
 ];
 
